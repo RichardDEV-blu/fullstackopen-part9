@@ -39,6 +39,7 @@ app.get("/bmi", (req, res) => {
 });
 
 app.post("/exercises", (req: Request, res: Response) => {
+  /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const body: any = req.body;
   if (body.daily_exercises === undefined || body.target === undefined) {
@@ -67,6 +68,7 @@ app.post("/exercises", (req: Request, res: Response) => {
   const target = Number(body.target);
 
   const result = calculateExercises(dailyExercises, target);
+  /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument */
 
   return res.json(result);
 });
