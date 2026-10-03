@@ -5,7 +5,7 @@ interface Result {
   trainingDays: number;
   success: boolean;
   rating: number;
-  ratingDesc: string;
+  ratingDescription: string;
   target: number;
   average: number;
 }
@@ -20,16 +20,16 @@ export const calculateExercises = (
   const average = totalHours / periodLength;
   const success = average >= target;
   let rating: number;
-  let ratingDesc: string;
+  let ratingDescription: string;
   if (average >= target) {
     rating = 3;
-    ratingDesc = "great job!";
+    ratingDescription = "great job!";
   } else if (average >= target * 0.5) {
     rating = 2;
-    ratingDesc = "not too bad";
+    ratingDescription = "not too bad";
   } else {
     rating = 1;
-    ratingDesc = "bad";
+    ratingDescription = "bad";
   }
 
   return {
@@ -37,7 +37,7 @@ export const calculateExercises = (
     trainingDays,
     success,
     rating,
-    ratingDesc,
+    ratingDescription,
     target,
     average,
   };
