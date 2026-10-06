@@ -17,7 +17,7 @@ router.get("/", (_req: Request, res: Response<NonSensitivePatient[]>) => {
 router.post("/", (req: Request, res: Response<Patient | { error: string }>) => {
   const newPatient: NewPatient = NewPatientSchema.parse(req.body);
   const addedPatient: Patient = patientService.addPatient(newPatient);
-  res.status(201).json(addedPatient);
+  res.status(200).json(addedPatient);
 });
 
 export default router;
