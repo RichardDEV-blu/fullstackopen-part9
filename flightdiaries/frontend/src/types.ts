@@ -1,9 +1,12 @@
-export interface DiaryEntry {
-  id: number;
+export interface NewDiaryEntry {
   date: string;
   weather: Weather;
   visibility: Visibility;
   comment?: string;
+}
+
+export interface DiaryEntry extends NewDiaryEntry {
+  id: number;
 }
 
 export type Weather = "sunny" | "rainy" | "cloudy" | "stormy" | "windy";
