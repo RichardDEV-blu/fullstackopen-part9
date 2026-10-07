@@ -33,3 +33,7 @@ export interface DiaryEntry extends NewDiaryEntry {
 }
 
 export type NonSensitiveDiaryEntry = Omit<DiaryEntry, 'comment'>;
+
+export interface DiaryParams {
+  id: string;
+}

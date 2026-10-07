@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { type Request, type Response } from 'express';
 import diaryRouter from './routes/diaries.ts';
 
 const app = express();
@@ -6,7 +6,7 @@ app.use(express.json());
 
 const PORT = 3000;
 
-app.get('/ping', (_req, res) => {
+app.get('/ping', (_req: Request, res: Response<string>) => {
   console.log('someone pinged here');
   res.send('pong');
 });

@@ -1,8 +1,12 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { NewEntrySchema } from './types.ts';
+import { NewEntrySchema, type NewDiaryEntry } from './types.ts';
 import { z } from 'zod';
 
-export const newDiaryParser = (req: Request, _res: Response, next: NextFunction) => {
+export const newDiaryParser = (
+  req: Request<unknown, unknown, NewDiaryEntry>,
+  _res: Response,
+  next: NextFunction,
+) => {
   try {
     NewEntrySchema.parse(req.body);
     next();
