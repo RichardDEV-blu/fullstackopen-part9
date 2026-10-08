@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import diaryService from "./services/diaryService";
 import type { DiaryEntry, NewDiaryEntry } from "./types";
+import axios from "axios";
 
 const App = () => {
   const [diaries, setDiaries] = useState<DiaryEntry[]>([]);
@@ -11,6 +12,9 @@ const App = () => {
     visibility: "great",
     comment: "",
   });
+
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     diaryService.getAll().then((data) => {
       setDiaries(data);
@@ -18,14 +22,23 @@ const App = () => {
   }, []);
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    const createdDiary = await diaryService.create(newDiary);
-    setDiaries((previousDiaries) => previousDiaries.concat(createdDiary));
-    setNewDiary({
-      date: "",
-      weather: "sunny",
-      visibility: "great",
-      comment: "",
-    });
+    try {
+      const createdDiary = await diaryService.create(newDiary);
+      setDiaries((previousDiaries) => previousDiaries.concat(createdDiary));
+      setNewDiary({
+        date: "",
+        weather: "sunny",
+        visibility: "great",
+        comment: "",
+      });
+      setError(null);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setError(error.response?.data?.error ?? "Unknown Axios Error");
+      } else {
+        setError("Unknown error");
+      }
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +50,7 @@ const App = () => {
   };
   return (
     <div>
+      {error && <p>Error: {error}</p>}
       <h1>Flight Diaries</h1>
 
       {diaries.map((diary) => (
