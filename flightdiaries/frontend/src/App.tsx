@@ -3,6 +3,8 @@ import diaryService from "./services/diaryService";
 import type { DiaryEntry, NewDiaryEntry } from "./types";
 import axios from "axios";
 
+const weatherOptions = ["sunny", "rainy", "cloudy", "stormy", "windy"] as const;
+const visibilityOptions = ["great", "good", "ok", "poor"] as const;
 const App = () => {
   const [diaries, setDiaries] = useState<DiaryEntry[]>([]);
 
@@ -47,6 +49,7 @@ const App = () => {
       ...newDiary,
       [name]: value,
     });
+    setError(null);
   };
   return (
     <div>
@@ -68,30 +71,45 @@ const App = () => {
         <div>
           <label>
             Date
-            <input name="date" value={newDiary.date} onChange={handleChange} />
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Weather
             <input
-              name="weather"
-              value={newDiary.weather}
+              type="date"
+              name="date"
+              value={newDiary.date}
               onChange={handleChange}
             />
           </label>
         </div>
 
         <div>
-          <label>
-            Visibility
-            <input
-              name="visibility"
-              value={newDiary.visibility}
-              onChange={handleChange}
-            />
-          </label>
+          Weather:
+          {weatherOptions.map((weather) => (
+            <label key={weather}>
+              <input
+                type="radio"
+                name="weather"
+                value={weather}
+                checked={newDiary.weather === weather}
+                onChange={handleChange}
+              />
+              {weather}
+            </label>
+          ))}
+        </div>
+
+        <div>
+          Visibility:
+          {visibilityOptions.map((visibility) => (
+            <label key={visibility}>
+              <input
+                type="radio"
+                name="visibility"
+                value={visibility}
+                checked={newDiary.visibility === visibility}
+                onChange={handleChange}
+              />
+              {visibility}
+            </label>
+          ))}
         </div>
 
         <div>
