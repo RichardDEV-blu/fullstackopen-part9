@@ -19,9 +19,9 @@ const diagnoses: Diagnosis[] = [
   },
   {
     code: "J10.1",
-    name: "Influenza with other respiratory manifestations, other influenza virus codeentified",
+    name: "Influenza with other respiratory manifestations, other influenza virus identified",
     latin:
-      "Influenza cum aliis manifestationibus respiratoriis ab agente virali codeentificato",
+      "Influenza cum aliis manifestationibus respiratoriis ab agente virali identificato",
   },
   {
     code: "J06.9",
