@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Patient } from "../types";
+import { Patient, Diagnosis } from "../types";
 import patientService from "../services/patients";
+import diagnosesService from "../services/diagnoses";
 
 const PatientDetails = () => {
   const { id } = useParams<{ id: string }>();
   const [patient, setPatient] = useState<Patient | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([]);
+
   useEffect(() => {
     const fetchPatient = async () => {
       if (!id) {
@@ -23,6 +26,18 @@ const PatientDetails = () => {
     };
     void fetchPatient();
   }, [id]);
+
+  useEffect(() => {
+    const fetchDiagnoses = async () => {
+      try {
+        const data = await diagnosesService.getAllDiagnoses();
+        setDiagnoses(data);
+      } catch (error) {
+        console.error("Failed to fetch diagnoses", error);
+      }
+    };
+    void fetchDiagnoses();
+  }, []);
 
   if (error) {
     return <p>{error}</p>;
@@ -48,7 +63,15 @@ const PatientDetails = () => {
             {entry.date} {entry.description}
           </p>
 
-          <p>Diagnosis codes: {entry.diagnosisCodes?.join(", ") ?? "None"}</p>
+          <p>
+            Diagnoses:{" "}
+            {entry.diagnosisCodes
+              ?.map((code) => {
+                const diagnosis = diagnoses.find((d) => d.code === code);
+                return diagnosis ? `${diagnosis.code} ${diagnosis.name}` : code;
+              })
+              .join(", ") ?? "None"}
+          </p>
         </div>
       ))}
     </div>
