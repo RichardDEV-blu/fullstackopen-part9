@@ -23,5 +23,58 @@ export interface Patient {
 export type PatientFormValues = Omit<Patient, "id" | "entries">;
 export type NonSensitivePatient = Omit<Patient, "ssn" | "entries">;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface Entry {}
+//Entries
+
+interface BaseEntry {
+  id: string;
+  description: string;
+  date: string;
+  specialist: string;
+  diagnosisCodes?: Array<Diagnosis["code"]>;
+}
+
+// Hospital Entry
+
+export interface Discharge {
+  date: string;
+  criteria: string;
+}
+export interface HospitalEntry extends BaseEntry {
+  type: "Hospital";
+  discharge: Discharge;
+}
+
+// HealthCheck Entry
+
+export const HealthCheckRating = {
+  Healthy: 0,
+  LowRisk: 1,
+  HighRisk: 2,
+  CriticalRisk: 3,
+} as const;
+
+export type HealthCheckRating =
+  (typeof HealthCheckRating)[keyof typeof HealthCheckRating];
+
+export interface HealthCheckEntry extends BaseEntry {
+  type: "HealthCheck";
+  healthCheckRating: HealthCheckRating;
+}
+
+// OccupationalHealthcareEntry
+
+export interface SickLeave {
+  startDate: string;
+  endDate: string;
+}
+
+export interface OccupationalHealthcareEntry extends BaseEntry {
+  type: "OccupationalHealthcare";
+  employerName: string;
+  sickLeave?: SickLeave;
+}
+
+export type Entry =
+  | HospitalEntry
+  | OccupationalHealthcareEntry
+  | HealthCheckEntry;

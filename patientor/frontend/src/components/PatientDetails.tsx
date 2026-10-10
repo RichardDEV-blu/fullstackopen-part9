@@ -40,12 +40,17 @@ const PatientDetails = () => {
       <p>Occupation: {patient.occupation}</p>
       <p>Gender: {patient.gender}</p>
 
-      <h3>Entries</h3>
-      {patient.entries.length === 0 ? (
-        <p>No entries</p>
-      ) : (
-        <p>{patient.entries.length} entries</p>
-      )}
+      <h5>Entries</h5>
+
+      {patient.entries.map((entry) => (
+        <div key={entry.id}>
+          <p>
+            {entry.date} {entry.description}
+          </p>
+
+          <p>Diagnosis codes: {entry.diagnosisCodes?.join(", ") ?? "None"}</p>
+        </div>
+      ))}
     </div>
   );
 };
