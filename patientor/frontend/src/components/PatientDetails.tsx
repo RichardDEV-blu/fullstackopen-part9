@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Patient, Diagnosis } from "../types";
 import patientService from "../services/patients";
 import diagnosesService from "../services/diagnoses";
-
+import EntryDetails from "./EntryDetails";
 const PatientDetails = () => {
   const { id } = useParams<{ id: string }>();
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -59,9 +59,7 @@ const PatientDetails = () => {
 
       {patient.entries.map((entry) => (
         <div key={entry.id}>
-          <p>
-            {entry.date} {entry.description}
-          </p>
+          <EntryDetails entry={entry} />
 
           <p>
             Diagnoses:{" "}
