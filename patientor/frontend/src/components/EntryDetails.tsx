@@ -1,3 +1,4 @@
+import { Chip, Stack, Typography } from "@mui/material";
 import type { Entry } from "../types";
 
 interface Props {
@@ -9,48 +10,39 @@ const assertNever = (value: never): never => {
 };
 
 const EntryDetails = ({ entry }: Props) => {
+  let details;
   switch (entry.type) {
     case "HealthCheck":
-      return (
-        <div>
-          <p>
-            {entry.date} {entry.description}
-          </p>
-          <p>Health rating: {entry.healthCheckRating}</p>
-        </div>
-      );
-
+      details = <Typography>Health rating: {entry.healthCheckRating}</Typography>;
+      break;
     case "Hospital":
-      return (
-        <div>
-          <p>
-            {entry.date} {entry.description}
-          </p>
-          <p>
-            Discharge: {entry.discharge.date} — {entry.discharge.criteria}
-          </p>
-        </div>
-      );
-
+      details = <Typography>Discharge: {entry.discharge.date} — {entry.discharge.criteria}</Typography>;
+      break;
     case "OccupationalHealthcare":
-      return (
-        <div>
-          <p>
-            {entry.date} {entry.description}
-          </p>
-          <p>Employer: {entry.employerName}</p>
+      details = (
+        <>
+          <Typography>Employer: {entry.employerName}</Typography>
           {entry.sickLeave && (
-            <p>
-              Sick leave: {entry.sickLeave.startDate} —{" "}
-              {entry.sickLeave.endDate}
-            </p>
+            <Typography>Sick leave: {entry.sickLeave.startDate} — {entry.sickLeave.endDate}</Typography>
           )}
-        </div>
+        </>
       );
-
+      break;
     default:
       return assertNever(entry);
   }
+
+  return (
+    <Stack spacing={0.75}>
+      <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+        <Chip size="small" label={entry.type === "OccupationalHealthcare" ? "Occupational healthcare" : entry.type} color="primary" variant="outlined" />
+        <Typography variant="body2" color="text.secondary">{entry.date}</Typography>
+      </Stack>
+      <Typography variant="h6">{entry.description}</Typography>
+      {details}
+      <Typography variant="body2" color="text.secondary">Specialist: {entry.specialist}</Typography>
+    </Stack>
+  );
 };
 
 export default EntryDetails;

@@ -8,6 +8,9 @@ import {
   TableCell,
   TableRow,
   TableBody,
+  Paper,
+  TableContainer,
+  Stack,
 } from "@mui/material";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -60,13 +63,13 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
   };
 
   return (
-    <div className="App">
-      <Box>
-        <Typography align="center" variant="h6">
+    <Box>
+      <Stack spacing={2.5}>
+        <Typography component="h1" variant="h4">
           Patient list
         </Typography>
-      </Box>
-      <Table sx={{ marginBottom: "1em" }}>
+      <TableContainer component={Paper} variant="outlined">
+      <Table>
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
@@ -79,8 +82,9 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
           {Object.values(patients).map((patient: Patient) => (
             <TableRow key={patient.id}>
               <TableCell>
-                {" "}
-                <Link to={`/patients/${patient.id}`}>{patient.name}</Link>
+                <Link to={`/patients/${patient.id}`} style={{ color: "inherit", fontWeight: 600 }}>
+                  {patient.name}
+                </Link>
               </TableCell>
               <TableCell>{patient.gender}</TableCell>
               <TableCell>{patient.occupation}</TableCell>
@@ -91,16 +95,20 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
           ))}
         </TableBody>
       </Table>
+      </TableContainer>
       <AddPatientModal
         modalOpen={modalOpen}
         onSubmit={submitNewPatient}
         error={error}
         onClose={closeModal}
       />
-      <Button variant="contained" onClick={() => openModal()}>
+      <Box>
+      <Button variant="contained" onClick={openModal}>
         Add New Patient
       </Button>
-    </div>
+      </Box>
+      </Stack>
+    </Box>
   );
 };
 

@@ -1,6 +1,6 @@
 import { useState, SyntheticEvent } from "react";
 
-import {  TextField, InputLabel, MenuItem, Select, Grid, Button, SelectChangeEvent } from '@mui/material';
+import { TextField, InputLabel, MenuItem, Select, Grid, Button, SelectChangeEvent, Stack } from '@mui/material';
 
 import { PatientFormValues, Gender } from "../../types";
 
@@ -49,7 +49,7 @@ const AddPatientForm = ({ onCancel, onSubmit }: Props) => {
 
   return (
     <div>
-      <form onSubmit={addPatient}>
+      <Stack component="form" spacing={2} onSubmit={addPatient}>
         <TextField
           label="Name"
           fullWidth 
@@ -64,7 +64,8 @@ const AddPatientForm = ({ onCancel, onSubmit }: Props) => {
         />
         <TextField
           label="Date of birth"
-          placeholder="YYYY-MM-DD"
+          type="date"
+          slotProps={{ inputLabel: { shrink: true } }}
           fullWidth
           value={dateOfBirth}
           onChange={({ target }) => setDateOfBirth(target.value)}
@@ -113,7 +114,7 @@ const AddPatientForm = ({ onCancel, onSubmit }: Props) => {
             </Button>
           </Grid>
         </Grid>
-      </form>
+      </Stack>
     </div>
   );
 };
